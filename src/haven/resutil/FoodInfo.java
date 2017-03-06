@@ -96,9 +96,12 @@ public class FoodInfo extends ItemInfo.Tip {
             }
             imgs.add(catimgsh(5, evs[i].img, RichText.render(str, 0).img));
         }
-        String totalFepStr = Resource.getLocString(Resource.BUNDLE_LABEL, "Total FEP: $col[128,255,128]{%s}");
-        BufferedImage totalFepsImg = RichText.render(String.format(totalFepStr, Utils.odformat2(totalFep, 2)), 0).img;
-        imgs.add(totalFepsImg);
+        String tmpstr = Resource.getLocString(Resource.BUNDLE_LABEL, "Total FEP: $col[128,255,128]{%s}");
+        BufferedImage tmpimg = RichText.render(String.format(tmpstr, Utils.odformat2(totalFep, 2)), 0).img;
+        imgs.add(tmpimg);
+        tmpstr = Resource.getLocString(Resource.BUNDLE_LABEL, "FEP/Hunger: $col[128,128,255]{%s}");
+        tmpimg = RichText.render(String.format(tmpstr, Utils.odformat2(totalFep/(glut*100), 2)), 0).img;
+        imgs.add(tmpimg);
         for (int i = 0; i < efs.length; i++) {
             BufferedImage efi = ItemInfo.longtip(efs[i].info);
             if (efs[i].p != 1)
