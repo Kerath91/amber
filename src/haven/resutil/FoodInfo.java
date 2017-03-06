@@ -78,6 +78,7 @@ public class FoodInfo extends ItemInfo.Tip {
 
         BufferedImage base = RichText.render(String.format(infoStr, Utils.odformat2(end * 100, 2), Utils.odformat2(glut * 100, 2)), 0).img;
         Collection<BufferedImage> imgs = new LinkedList<BufferedImage>();
+        double totalFep = 0;
         imgs.add(base);
         for (int i = 0; i < evs.length; i++) {
             Color col = Utils.blendcol(evs[i].ev.col, Color.WHITE, 0.5);
@@ -88,11 +89,16 @@ public class FoodInfo extends ItemInfo.Tip {
                         evs[i].ev.nm,
                         col.getRed(), col.getGreen(), col.getBlue(), Utils.odformat2(evs[i].a, 2),
                         col.getRed(), col.getGreen(), col.getBlue(), q != null ? basefepfmt.format(evs[i].a / Math.sqrt(q.q / 10)) : "???");
+                totalFep += q != null ? evs[i].a / Math.sqrt(q.q / 10) : 0;
             } else {
                 str = String.format("%s: $col[%d,%d,%d]{%s}", evs[i].ev.nm, col.getRed(), col.getGreen(), col.getBlue(), Utils.odformat2(evs[i].a, 2));
+                totalFep += evs[i].a;
             }
             imgs.add(catimgsh(5, evs[i].img, RichText.render(str, 0).img));
         }
+        String totalFepStr = Resource.getLocString(Resource.BUNDLE_LABEL, "Total FEP: $col[128,255,128]{%s}");
+        BufferedImage totalFepsImg = RichText.render(String.format(totalFepStr, Utils.odformat2(totalFep, 2)), 0).img;
+        imgs.add(totalFepsImg);
         for (int i = 0; i < efs.length; i++) {
             BufferedImage efi = ItemInfo.longtip(efs[i].info);
             if (efs[i].p != 1)
